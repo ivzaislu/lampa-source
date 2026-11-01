@@ -182,6 +182,11 @@
     }
 
     function onFull(event) {
+        if (event && event.type === 'build' && event.name === 'episodes') {
+            decorateEpisodesRow(event.item);
+            return;
+        }
+
         // 'complite' is the event name used by Lampa itself.
         if (!event || event.type !== 'complite' || !event.body || !event.data || !event.data.movie) return;
 
@@ -447,17 +452,10 @@
         }
     }
 
-    function onFullBuild(event) {
-        if (event && event.type === 'build' && event.name === 'episodes') {
-            decorateEpisodesRow(event.item);
-        }
-    }
-
     function init() {
         addStyles();
         addEpisodeStyles();
         Lampa.Listener.follow('full', onFull);
-        Lampa.Listener.follow('full', onFullBuild);
     }
 
     if (window.appready) {
