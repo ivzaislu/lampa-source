@@ -93,6 +93,7 @@ async function main() {
                     actorWidthInEm: actor.getBoundingClientRect().width / parseFloat(window.getComputedStyle(actor).fontSize),
                     actorHeight: actor.getBoundingClientRect().height,
                     actorFocusColor: window.getComputedStyle(actorRow.querySelector('.full-person.focus')).color,
+                    actorFocusBackground: window.getComputedStyle(actorRow.querySelector('.full-person.focus')).backgroundColor,
                     viewportOverflow: document.documentElement.scrollWidth > window.innerWidth + 1
                 }
             })
@@ -106,6 +107,7 @@ async function main() {
                 !measurements.actorRowStyled || measurements.actorCount !== 5 ||
                 !(measurements.actorWidthInEm > 13 && measurements.actorWidthInEm < 18) ||
                 !(measurements.actorHeight < measurements.cardHeight) ||
+                !/^rgb\(30, 46, 56\)$/.test(measurements.actorFocusBackground) ||
                 (device.name === 'mobile' && measurements.viewportOverflow)) {
                 throw new Error('Visual smoke checks failed on ' + device.name + ': ' +
                     JSON.stringify(measurements))
