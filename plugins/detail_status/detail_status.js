@@ -84,7 +84,7 @@
 
     function seasonNumber(value) {
         var number = Number(value);
-        return Number.isInteger(number) && number > 0 ? number : 0;
+        return isFinite(number) && Math.floor(number) === number && number > 0 ? number : 0;
     }
 
     function nextSeasonStatus(next, last) {
@@ -112,6 +112,9 @@
         // based on the absence of a broadcast schedule.
         if (nextDate !== null && nextDate > today) {
             return nextSeasonStatus(next, last);
+        }
+        if (nextDate !== null && nextDate === today) {
+            return { title: 'Идёт', tone: 'active' };
         }
 
         var seasons = Array.isArray(movie.seasons) ? movie.seasons : [];
