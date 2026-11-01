@@ -424,6 +424,7 @@
 
         var meta = document.createElement('div');
         meta.className = 'lampa-episode__meta';
+        var displayDate = date.textContent;
         if (!episode.air_date) date.textContent = 'Дата уточняется';
         if (upcoming && episode.air_date) date.textContent = 'Премьера';
         meta.appendChild(date);
@@ -445,7 +446,7 @@
                 'aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/>' +
                 '<path d="M7 3v4M17 3v4M3 10h18M8 15h3"/></svg>' +
                 '<span class="lampa-episode__calendar-label">' +
-                (episode.air_date ? date.textContent : 'Дата уточняется') + '</span>';
+                (episode.air_date ? displayDate : 'Дата уточняется') + '</span>';
             image.appendChild(cal);
         }
     }
