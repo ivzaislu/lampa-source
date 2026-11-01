@@ -224,57 +224,81 @@
         style.id = 'lampa-detail-episodes-css';
         style.type = 'text/css';
         style.textContent = [
+            '.lampa-episode-redesign .items-line__head {',
+            '  margin-bottom: .8em; padding-bottom: 0;',
+            '}',
+            '.lampa-episode-redesign .items-line__title {',
+            '  display: inline-flex; align-items: center; gap: .58em;',
+            '  width: auto; max-width: 100%;',
+            '  padding: .34em .7em .34em .62em;',
+            '  font-size: 1.22em; line-height: 1.2; font-weight: 500;',
+            '  border: 1px solid rgba(122,202,237,.2);',
+            '  border-radius: .65em;',
+            '  background: rgba(12,28,37,.7);',
+            '  box-shadow: 0 3px 12px rgba(0,0,0,.1);',
+            '}',
+            '.lampa-episode-redesign .items-line__title::before {',
+            '  content: ""; align-self: stretch; width: .18em;',
+            '  border-radius: 2em; background: #70cde0;',
+            '}',
+            '.lampa-episode-redesign .lampa-season__label {',
+            '  font-size: .7em; letter-spacing: .085em;',
+            '  text-transform: uppercase; color: #bed3dc;',
+            '}',
+            '.lampa-episode-redesign .lampa-season__number {',
+            '  font-size: 1.12em; font-weight: 700; color: #fff;',
+            '}',
             '.lampa-episode-redesign .full-episode--small {',
             '  display: flex; flex-direction: column; flex-shrink: 0;',
-            '  width: 17.5em; overflow: visible;',
-            '  border: 1px solid rgba(255,255,255,.12); border-radius: 1em;',
-            '  background: rgba(12,19,28,.82);',
-            '  transition: border-color .2s, box-shadow .2s, transform .2s;',
+            '  width: 13.25em; overflow: visible;',
+            '  border: 1px solid rgba(255,255,255,.10); border-radius: .8em;',
+            '  background: rgba(12,19,28,.78);',
+            '  transition: border-color .18s, box-shadow .18s, transform .18s;',
             '}',
             '.lampa-episode-redesign .full-episode--small .full-episode__img {',
             '  display: block; width: 100%; padding-bottom: 56.25%;',
-            '  border-radius: 1em 1em 0 0; overflow: hidden;',
+            '  border-radius: .8em .8em 0 0; overflow: hidden;',
             '  background: rgba(22,32,45,.9);',
             '}',
             '.lampa-episode-redesign .full-episode--small .full-episode__img img {',
             '  width: 100%; height: 100%; object-fit: cover;',
-            '  border-radius: 1em 1em 0 0;',
+            '  border-radius: .8em .8em 0 0;',
             '}',
             '.lampa-episode-redesign .full-episode--small .full-episode__body {',
             '  position: relative; top: auto; right: auto; bottom: auto; left: auto;',
             '  flex: 1;',
             '  display: flex; flex-direction: column;',
-            '  justify-content: flex-start; border-radius: 0 0 1em 1em;',
-            '  padding: .85em 1em .95em; background: transparent;',
-            '  color: #f8f9fc; min-height: 5.9em;',
+            '  justify-content: flex-start; border-radius: 0 0 .8em .8em;',
+            '  padding: .58em .7em .65em; background: transparent;',
+            '  color: #f8f9fc; min-height: 0;',
             '}',
             '.lampa-episode-redesign .lampa-episode__heading {',
-            '  display: flex; align-items: baseline; gap: .65em; min-width: 0;',
+            '  display: flex; align-items: center; gap: .4em; min-width: 0;',
             '}',
             '.lampa-episode-redesign .full-episode__num {',
-            '  font-size: 1em; font-weight: 700; line-height: 1.3;',
+            '  font-size: .85em; font-weight: 700; line-height: 1.25;',
             '  margin: 0; color: #a2b5c6; flex-shrink: 0;',
             '}',
             '.lampa-episode-redesign .full-episode__name {',
-            '  min-width: 0; line-height: 1.35; font-size: 1.12em;',
+            '  min-width: 0; line-height: 1.3; font-size: .95em;',
             '  font-weight: 600; white-space: normal;',
             '  overflow: hidden; display: -webkit-box;',
-            '  -webkit-box-orient: vertical; -webkit-line-clamp: 2;',
+            '  -webkit-box-orient: vertical; -webkit-line-clamp: 1;',
             '}',
             '.lampa-episode-redesign .lampa-episode__meta {',
             '  display: flex; align-items: center; flex-wrap: wrap;',
-            '  gap: .4em .75em; margin-top: auto; padding-top: .65em;',
+            '  gap: .25em .45em; margin-top: .2em; padding-top: 0;',
             '}',
             '.lampa-episode-redesign .full-episode__date {',
-            '  font-size: .95em; margin: 0; line-height: 1.3;',
+            '  font-size: .79em; margin: 0; line-height: 1.3;',
             '  color: #b9c4ce;',
             '}',
             '.lampa-episode-redesign .lampa-episode__availability {',
             '  margin-left: auto; color: #83ddae;',
-            '  font-size: .78em; font-weight: 600; white-space: nowrap;',
+            '  font-size: .72em; font-weight: 600; white-space: nowrap;',
             '}',
             '.lampa-episode-redesign .lampa-episode--upcoming {',
-            '  border-color: rgba(248,190,88,.38);',
+            '  border-color: rgba(248,190,88,.28);',
             '}',
             '.lampa-episode-redesign .full-episode--next .full-episode__img {',
             '  background: linear-gradient(135deg, #1c2839, #141a2b);',
@@ -287,21 +311,21 @@
             '  color: #f4ca77;',
             '}',
             '.lampa-episode-redesign .lampa-episode__calendar {',
-            '  display: flex; flex-direction: column; gap: .6em;',
+            '  display: flex; flex-direction: column; gap: .35em;',
             '  position: absolute; inset: 0; align-items: center;',
             '  justify-content: center; color: #f4ca77;',
             '}',
             '.lampa-episode-redesign .lampa-episode__calendar svg {',
-            '  width: 2.35em !important; height: 2.35em !important;',
+            '  width: 1.7em !important; height: 1.7em !important;',
             '}',
             '.lampa-episode-redesign .lampa-episode__calendar-label {',
-            '  font-weight: 600; font-size: .92em;',
+            '  font-weight: 600; font-size: .78em;',
             '}',
             '.lampa-episode-redesign .full-episode--small.focus,',
             '.lampa-episode-redesign .full-episode--small.hover {',
             '  border-color: #fff; box-shadow: 0 0 0 .19em #fff,',
             '    0 .7em 2em rgba(0,0,0,.3);',
-            '  transform: scale(1.018); z-index: 2;',
+            '  transform: scale(1.012); z-index: 2;',
             '}',
             '.lampa-episode-redesign .full-episode--small.focus::after {',
             '  display: none;',
@@ -314,23 +338,23 @@
             '  border-radius: 50%; padding: .25em; background: rgba(0,0,0,.55);',
             '}',
             '.lampa-episode-redesign .card-more--first {',
-            '  width: 12em !important; min-height: 14em;',
+            '  width: 7.8em !important; min-height: 0;',
             '  align-self: stretch;',
             '}',
             '.lampa-episode-redesign .card-more--first .card-more__box {',
-            '  height: auto !important; min-height: 14em;',
+            '  height: auto !important; min-height: 0 !important;',
             '  border: 1px solid rgba(255,255,255,.17);',
-            '  border-radius: 1em; background: rgba(20,32,46,.72);',
+            '  border-radius: .8em; background: rgba(20,32,46,.68);',
             '  display: flex; align-items: center; justify-content: center;',
             '  flex-direction: column;',
             '}',
             '.lampa-episode-redesign .card-more--first .card-more__title {',
             '  position: static; margin: 0; padding: 0 1em;',
-            '  font-size: 1.2em; font-weight: 600; line-height: 1.3;',
+            '  font-size: .95em; font-weight: 600; line-height: 1.25;',
             '}',
             '.lampa-episode-redesign .card-more--first .card-more__title::before {',
-            '  content: "↗"; display: block; font-size: 1.6em;',
-            '  font-weight: 400; margin-bottom: .6em; color: #a2d9ef;',
+            '  content: "↗"; display: block; font-size: 1.35em;',
+            '  font-weight: 400; margin-bottom: .3em; color: #a2d9ef;',
             '}',
             '.lampa-episode-redesign .card-more--first.focus .card-more__box {',
             '  border-color: #fff; box-shadow: 0 0 0 .19em #fff;',
@@ -339,8 +363,8 @@
             '  display: none;',
             '}',
             '@media (max-width: 580px) {',
-            '  .lampa-episode-redesign .full-episode--small {width: 15.8em;}',
-            '  .lampa-episode-redesign .card-more--first {width: 10em !important;}',
+            '  .lampa-episode-redesign .full-episode--small {width: 12.8em;}',
+            '  .lampa-episode-redesign .card-more--first {width: 7em !important;}',
             '}',
             '@media (prefers-reduced-motion: reduce) {',
             '  .lampa-episode-redesign .full-episode--small {',
@@ -420,6 +444,31 @@
         }
     }
 
+    function decorateSeasonTitle(root) {
+        var title = root.querySelector('.items-line__title');
+        if (!title || title.classList.contains('lampa-season--styled')) return;
+
+        var original = (title.textContent || '').replace(/^\s+|\s+$/g, '');
+        var match = /^(Сезон|Season)\s+(\d+)$/i.exec(original);
+        if (!match) return;
+
+        // Preserve the original title for assistive technologies.
+        title.setAttribute('aria-label', original);
+        title.classList.add('lampa-season--styled');
+        title.textContent = '';
+
+        var label = document.createElement('span');
+        label.className = 'lampa-season__label';
+        label.textContent = match[1];
+
+        var number = document.createElement('span');
+        number.className = 'lampa-season__number';
+        number.textContent = match[2].length < 2 ? '0' + match[2] : match[2];
+
+        title.appendChild(label);
+        title.appendChild(number);
+    }
+
     function decorateEpisodesRow(line) {
         if (!line || typeof line.render !== 'function') return;
 
@@ -428,6 +477,7 @@
             root.classList.contains('lampa-episode-redesign')) return;
 
         root.classList.add('lampa-episode-redesign');
+        decorateSeasonTitle(root);
 
         // Keep the existing "MoreFirst" item in the same position:
         // repositioning it breaks the internal active index and TV scrolling.
