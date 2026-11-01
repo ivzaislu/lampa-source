@@ -77,14 +77,20 @@ async function main() {
                     more: more && more.textContent,
                     upcomingCalendar: Boolean(upcoming && upcoming.querySelector('.lampa-episode__calendar')),
                     itemCount: row.querySelectorAll('.lampa-episode-card').length,
-                    cardWidthInEm: first.getBoundingClientRect().width / parseFloat(cardStyle.fontSize)
+                    cardWidthInEm: first.getBoundingClientRect().width / parseFloat(cardStyle.fontSize),
+                    moreHeight: row.querySelector('.card-more--first').getBoundingClientRect().height,
+                    cardHeight: first.getBoundingClientRect().height,
+                    viewportOverflow: document.documentElement.scrollWidth > window.innerWidth + 1
                 }
             })
 
             if (!measurements.hasStyledRow || measurements.heading !== '02' ||
                 measurements.more !== 'Все серии' ||
                 !measurements.upcomingCalendar || measurements.itemCount !== 3 ||
-                !(measurements.cardWidthInEm > 12 && measurements.cardWidthInEm < 15)) {
+                !(measurements.cardWidthInEm > 12 && measurements.cardWidthInEm < 15) ||
+                !(measurements.moreHeight > measurements.cardHeight * 0.55 &&
+                  measurements.moreHeight < measurements.cardHeight * 0.95) ||
+                (device.name === 'mobile' && measurements.viewportOverflow)) {
                 throw new Error('Visual smoke checks failed on ' + device.name + ': ' +
                     JSON.stringify(measurements))
             }
