@@ -76,7 +76,18 @@
         var status = normalize(event.data.movie.status);
         if (!Object.prototype.hasOwnProperty.call(statuses, status)) return;
 
-        var badge = event.body.find('.full-start__status');
+        // Other plugins may reuse .full-start__status for quality badges.
+        // Match Lampa's original translated status text, not every badge.
+        var originalText = Lampa.Lang.translate('tv_status_' + status);
+        var badge = event.body
+            .find('.full-start-new__rate-line > .full-start__status')
+            .filter(function () {
+                return $(this).text().trim() === originalText;
+            })
+            .first();
+
+        // Fail safely if another plugin has altered the structure/label.
+        // Never overwrite unrelated quality/format badges.
         if (!badge.length) return;
 
         var details = statuses[status];
