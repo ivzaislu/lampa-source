@@ -140,6 +140,8 @@ describe('detail episodes plugin', () => {
         expect(aired.root.querySelector('.lampa-episode__heading')).not.toBeNull()
         expect(aired.root.querySelector('.lampa-episode__availability').textContent).toBe('Доступна')
         expect(coming.root.querySelector('.lampa-episode__calendar')).not.toBeNull()
+        expect(coming.root.querySelector('.lampa-episode__calendar').innerHTML).toContain('2099-11-05')
+        expect(coming.root.querySelector('.full-episode__date').textContent).toBe('Премьера')
         expect(coming.root.querySelector('.lampa-episode__availability').textContent).toBe('Скоро')
         expect(harness.styles).toHaveLength(2)
     })
