@@ -7,10 +7,14 @@
 Добавьте ссылку на JavaScript-файл в разделе плагинов Lampa:
 
 ```text
-https://raw.githubusercontent.com/ivzaislu/lampa-source/refs/heads/feature/detail-page-redesign-plugin/plugins/detail_status/detail_status.js
+https://cdn.jsdelivr.net/gh/ivzaislu/lampa-source@9e4c4acec6a656c8cb595c7efd9cdf0704324b55/plugins/detail_status/detail_status.js
 ```
 
-Затем обновите страницу Lampa и откройте подробную карточку фильма или сериала.
+Удалите прежнюю ссылку `raw.githubusercontent.com` из списка плагинов, добавьте ссылку jsDelivr выше, затем обновите страницу Lampa и откройте подробную карточку фильма или сериала.
+
+**Почему не raw.githubusercontent.com:** GitHub отдаёт raw JavaScript с MIME-типом `text/plain`, из-за чего браузер может блокировать выполнение скрипта. jsDelivr предназначен для подключения JS-файлов из GitHub.
+
+Ссылка выше привязана к **конкретному коммиту** для надёжного разрешения ветки с `/` в имени и стабильности версии. После следующих изменений плагина потребуется обновить ссылку на новую версию.
 
 ## Статусы
 
