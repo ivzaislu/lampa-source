@@ -413,7 +413,7 @@
             '}',
             '.lampa-person-redesign .full-person.focus,',
             '.lampa-person-redesign .full-person.hover {',
-            '  color: #fff; background: rgba(32,49,61,.94);',
+            '  color: #fff !important; background-color: rgb(30,46,56) !important;',
             '  border-color: #fff; box-shadow: 0 0 0 .16em #fff;',
             '}',
             '.lampa-person-redesign .full-person.focus .full-person__role,',
