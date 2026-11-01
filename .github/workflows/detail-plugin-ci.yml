@@ -57,7 +57,8 @@ jobs:
 
   visual-snapshots:
     name: Browser layout smoke test and screenshots
-    runs-on: ubuntu-latest
+    # Playwright 1.56 supports Ubuntu 24.04, not the runner's Ubuntu 26.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - name: Checkout source
