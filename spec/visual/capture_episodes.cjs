@@ -68,6 +68,11 @@ async function main() {
                 window.sendFull({type: 'build', name: 'persons', item: window.fixtureActors})
             })
 
+            // Lampa animates focus colors. Measure only after the style
+            // transition settles; otherwise Chromium captures the old white
+            // actor-focus background during its first animation frame.
+            await page.waitForTimeout(350)
+
             const measurements = await page.evaluate(() => {
                 const row = document.getElementById('episode-line')
                 const first = row.querySelector('.full-episode--small')
