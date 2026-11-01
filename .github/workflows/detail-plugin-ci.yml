@@ -1,0 +1,55 @@
+name: Detail page plugin CI
+
+on:
+  push:
+    branches:
+      - feature/detail-page-redesign-plugin
+    paths:
+      - 'plugins/detail_status/**'
+      - 'spec/detail_status_plugin.spec.js'
+      - 'spec/detail_episodes_plugin.spec.js'
+      - '.github/workflows/detail-plugin-ci.yml'
+      - 'package.json'
+  pull_request:
+    paths:
+      - 'plugins/detail_status/**'
+      - 'spec/detail_status_plugin.spec.js'
+      - 'spec/detail_episodes_plugin.spec.js'
+      - '.github/workflows/detail-plugin-ci.yml'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: detail-plugin-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plugin-tests:
+    name: Plugin and application regression tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # This repository currently has no lockfile. Use npm install,
+      # not npm ci, until a lockfile is committed.
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Check standalone plugin syntax
+        run: node --check plugins/detail_status/detail_status.js
+
+      - name: Test detail page plugin
+        run: npm test -- --run spec/detail_status_plugin.spec.js spec/detail_episodes_plugin.spec.js
+
+      - name: Run project regression suite
+        run: npm test -- --run
