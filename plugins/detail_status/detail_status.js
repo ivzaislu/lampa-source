@@ -225,28 +225,33 @@
         style.type = 'text/css';
         style.textContent = [
             '.lampa-episode-redesign .items-line__head {',
-            '  margin-bottom: .8em; padding-bottom: 0;',
+            '  margin-bottom: .9em; padding-bottom: 0; gap: 1.1em;',
             '}',
             '.lampa-episode-redesign .items-line__title {',
-            '  display: inline-flex; align-items: center; gap: .58em;',
-            '  width: auto; max-width: 100%;',
-            '  padding: .34em .7em .34em .62em;',
-            '  font-size: 1.22em; line-height: 1.2; font-weight: 500;',
-            '  border: 1px solid rgba(122,202,237,.2);',
-            '  border-radius: .65em;',
-            '  background: rgba(12,28,37,.7);',
-            '  box-shadow: 0 3px 12px rgba(0,0,0,.1);',
+            '  display: inline-flex; align-items: center; gap: .48em;',
+            '  width: auto; max-width: 100%; flex-shrink: 0;',
+            '  padding: 0;',
+            '  font-size: 1.6em; line-height: 1.25; font-weight: 400;',
+            '  border: 0;',
+            '  border-radius: 0;',
+            '  background: transparent;',
+            '  box-shadow: none;',
             '}',
-            '.lampa-episode-redesign .items-line__title::before {',
-            '  content: ""; align-self: stretch; width: .18em;',
-            '  border-radius: 2em; background: #70cde0;',
+            '.lampa-episode-redesign .items-line__head::after {',
+            '  content: ""; flex: 1; height: 1px;',
+            '  background: linear-gradient(90deg, rgba(112,205,224,.25), transparent);',
             '}',
             '.lampa-episode-redesign .lampa-season__label {',
-            '  font-size: .7em; letter-spacing: .085em;',
-            '  text-transform: uppercase; color: #bed3dc;',
+            '  font-size: 1em; letter-spacing: 0;',
+            '  text-transform: none; color: #f3f6f8;',
             '}',
             '.lampa-episode-redesign .lampa-season__number {',
-            '  font-size: 1.12em; font-weight: 700; color: #fff;',
+            '  font-size: .65em; font-weight: 700; color: #8ddbea;',
+            '}',
+            '.lampa-episode-redesign .lampa-season__number {',
+            '  display: inline-block; padding: .23em .55em; line-height: 1.1;',
+            '  border-radius: .48em; border: 1px solid rgba(141,219,234,.25);',
+            '  background: rgba(78,160,184,.13);',
             '}',
             '.lampa-episode-redesign .full-episode--small {',
             '  display: flex; flex-direction: column; flex-shrink: 0;',
@@ -338,13 +343,13 @@
             '  border-radius: 50%; padding: .25em; background: rgba(0,0,0,.55);',
             '}',
             '.lampa-episode-redesign .card-more--first {',
-            '  width: 7.8em !important; min-height: 0;',
+            '  width: 9em !important; min-height: 0;',
             '  align-self: stretch;',
             '}',
             '.lampa-episode-redesign .card-more--first .card-more__box {',
             '  height: auto !important; min-height: 0 !important;',
             '  border: 1px solid rgba(255,255,255,.17);',
-            '  border-radius: .8em; background: rgba(20,32,46,.68);',
+            '  border-radius: .8em; background: rgba(18,31,41,.64);',
             '  display: flex; align-items: center; justify-content: center;',
             '  flex-direction: column;',
             '}',
@@ -353,8 +358,8 @@
             '  font-size: .95em; font-weight: 600; line-height: 1.25;',
             '}',
             '.lampa-episode-redesign .card-more--first .card-more__title::before {',
-            '  content: "↗"; display: block; font-size: 1.35em;',
-            '  font-weight: 400; margin-bottom: .3em; color: #a2d9ef;',
+            '  content: "☷"; display: block; font-size: 1.8em;',
+            '  font-weight: 400; margin-bottom: .28em; color: #8ddbea;',
             '}',
             '.lampa-episode-redesign .card-more--first.focus .card-more__box {',
             '  border-color: #fff; box-shadow: 0 0 0 .19em #fff;',
@@ -364,7 +369,7 @@
             '}',
             '@media (max-width: 580px) {',
             '  .lampa-episode-redesign .full-episode--small {width: 12.8em;}',
-            '  .lampa-episode-redesign .card-more--first {width: 7em !important;}',
+            '  .lampa-episode-redesign .card-more--first {width: 8.5em !important;}',
             '}',
             '@media (prefers-reduced-motion: reduce) {',
             '  .lampa-episode-redesign .full-episode--small {',
@@ -420,6 +425,7 @@
         var meta = document.createElement('div');
         meta.className = 'lampa-episode__meta';
         if (!episode.air_date) date.textContent = 'Дата уточняется';
+        if (upcoming && episode.air_date) date.textContent = 'Премьера';
         meta.appendChild(date);
 
         var availability = document.createElement('span');
@@ -439,7 +445,7 @@
                 'aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/>' +
                 '<path d="M7 3v4M17 3v4M3 10h18M8 15h3"/></svg>' +
                 '<span class="lampa-episode__calendar-label">' +
-                (episode.air_date ? 'Скоро в эфире' : 'Анонс') + '</span>';
+                (episode.air_date ? date.textContent : 'Дата уточняется') + '</span>';
             image.appendChild(cal);
         }
     }
