@@ -168,11 +168,34 @@ describe('detail episodes plugin', () => {
         expect(line.season.children).toHaveLength(2)
     })
 
-    test('other full build sections are left alone', () => {
+    test('actors get a scoped layout without replacing the person nodes or selection', () => {
         const harness = setup()
-        const line = row([episode({episode_number: 1, name: 'Имя'})])
+        const actor = new Node('full-person selector')
+        const photo = new Node('full-person__photo')
+        const caption = new Node('full-person__name')
+        caption.textContent = 'Майкл С. Холл'
+        actor.appendChild(photo)
+        actor.appendChild(caption)
+
+        const line = row([])
+        line.root.appendChild(actor)
         harness.send({type: 'build', name: 'persons', item: line})
-        expect(line.title.textContent).toBe('Ещё')
+        harness.send({type: 'build', name: 'persons', item: line})
+
+        expect(line.root.names.has('lampa-person-redesign')).toBe(true)
+        expect(actor.names.has('selector')).toBe(true)
+        expect(actor.querySelector('.full-person__photo')).toBe(photo)
+        expect(actor.querySelector('.full-person__name').textContent).toBe('Майкл С. Холл')
         expect(line.listeners).toHaveLength(0)
+        expect(line.season.names.has('lampa-season--styled')).toBe(false)
+    })
+
+    test('non-person, non-episode sections remain unchanged', () => {
+        const harness = setup()
+        const line = row([])
+        harness.send({type: 'build', name: 'cards', item: line})
+        expect(line.root.names.has('lampa-person-redesign')).toBe(false)
+        expect(line.root.names.has('lampa-episode-redesign')).toBe(false)
+        expect(line.title.textContent).toBe('Ещё')
     })
 })
