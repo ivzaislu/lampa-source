@@ -182,8 +182,9 @@
     }
 
     function onFull(event) {
-        if (event && event.type === 'build' && event.name === 'episodes') {
-            decorateEpisodesRow(event.item);
+        if (event && event.type === 'build') {
+            if (event.name === 'episodes') decorateEpisodesRow(event.item);
+            if (event.name === 'persons') decoratePersonsRow(event.item);
             return;
         }
 
@@ -343,13 +344,14 @@
             '  border-radius: 50%; padding: .25em; background: rgba(0,0,0,.55);',
             '}',
             '.lampa-episode-redesign .card-more--first {',
-            '  width: 8.5em !important; height: 8.5em;',
-            '  min-height: 0; align-self: center; flex-shrink: 0;',
+            '  width: 13.25em !important; height: auto !important;',
+            '  min-height: 0; align-self: stretch; flex-shrink: 0; display: flex;',
             '}',
             '.lampa-episode-redesign .card-more--first .card-more__box {',
-            '  height: 100% !important; min-height: 0 !important;',
+            '  height: auto !important; min-height: 0 !important;',
+            '  width: 100%; flex: 1;',
             '  border: 1px solid rgba(255,255,255,.17);',
-            '  border-radius: .8em; background: rgba(18,31,41,.64);',
+            '  border-radius: .8em; background: rgba(12,19,28,.78);',
             '  display: flex; align-items: center; justify-content: center;',
             '  flex-direction: column;',
             '}',
@@ -358,8 +360,65 @@
             '  font-size: .95em; font-weight: 600; line-height: 1.25;',
             '}',
             '.lampa-episode-redesign .card-more--first .card-more__title::before {',
-            '  content: "☷"; display: block; font-size: 1.8em;',
-            '  font-weight: 400; margin-bottom: .28em; color: #8ddbea;',
+            '  content: "▦"; display: block; font-size: 2em;',
+            '  font-weight: 400; margin-bottom: .3em; color: #8ddbea;',
+            '}',
+            '.lampa-episode-redesign .scroll__body.mapping--line {',
+            '  align-items: stretch;',
+            '}',
+            '.lampa-episode-redesign .card-more--first .card-more__title::after {',
+            '  content: "Открыть список"; display: block; margin-top: .55em;',
+            '  font-size: .72em; font-weight: 400; color: #9bafbc;',
+            '}',
+            '.lampa-person-redesign .items-line__head {',
+            '  margin-bottom: .85em; gap: 1.1em;',
+            '}',
+            '.lampa-person-redesign .items-line__head::after {',
+            '  content: ""; flex: 1; height: 1px;',
+            '  background: linear-gradient(90deg, rgba(112,205,224,.25), transparent);',
+            '}',
+            '.lampa-person-redesign .items-line__title {',
+            '  font-size: 1.6em; font-weight: 400;',
+            '}',
+            '.lampa-person-redesign .full-person {',
+            '  box-sizing: border-box; width: 17em; height: 6.4em;',
+            '  flex-shrink: 0; min-width: 0; padding: .5em;',
+            '  font-size: 1em; display: flex; align-items: center;',
+            '  border: 1px solid rgba(255,255,255,.11);',
+            '  border-radius: .85em; background: rgba(12,19,28,.72);',
+            '  color: #f3f6f8; transition: background .18s, border-color .18s, box-shadow .18s;',
+            '}',
+            '.lampa-person-redesign .full-person__photo {',
+            '  width: 5.3em; height: 5.3em; margin-right: .78em;',
+            '  border-radius: .6em; flex-shrink: 0;',
+            '  background: rgba(38,55,65,.7);',
+            '}',
+            '.lampa-person-redesign .full-person__photo img {',
+            '  height: 100%; width: 100%; object-fit: cover;',
+            '  object-position: center 25%;',
+            '}',
+            '.lampa-person-redesign .full-person__body {',
+            '  min-width: 0; flex: 1; overflow: hidden;',
+            '}',
+            '.lampa-person-redesign .full-person__name {',
+            '  font-size: 1.06em; font-weight: 600; line-height: 1.25;',
+            '  display: -webkit-box; -webkit-box-orient: vertical;',
+            '  -webkit-line-clamp: 2; overflow: hidden;',
+            '}',
+            '.lampa-person-redesign .full-person__role {',
+            '  font-size: .83em; margin-top: .4em; line-height: 1.3;',
+            '  color: #aebfcb; display: -webkit-box;',
+            '  -webkit-box-orient: vertical; -webkit-line-clamp: 2;',
+            '  overflow: hidden;',
+            '}',
+            '.lampa-person-redesign .full-person.focus,',
+            '.lampa-person-redesign .full-person.hover {',
+            '  color: #fff; background: rgba(32,49,61,.94);',
+            '  border-color: #fff; box-shadow: 0 0 0 .16em #fff;',
+            '}',
+            '.lampa-person-redesign .full-person.focus .full-person__role,',
+            '.lampa-person-redesign .full-person.hover .full-person__role {',
+            '  color: #d0e0e8;',
             '}',
             '.lampa-episode-redesign .card-more--first.focus .card-more__box {',
             '  border-color: #fff; box-shadow: 0 0 0 .19em #fff;',
@@ -369,7 +428,9 @@
             '}',
             '@media (max-width: 580px) {',
             '  .lampa-episode-redesign .full-episode--small {width: 12.8em;}',
-            '  .lampa-episode-redesign .card-more--first {width: 7.7em !important; height: 7.7em;}',
+            '  .lampa-episode-redesign .card-more--first {width: 12.8em !important; height: auto !important;}',
+            '  .lampa-person-redesign .full-person {width: 14.2em; height: 5.8em;}',
+            '  .lampa-person-redesign .full-person__photo {width: 4.7em; height: 4.7em;}',
             '}',
             '@media (prefers-reduced-motion: reduce) {',
             '  .lampa-episode-redesign .full-episode--small {',
@@ -509,6 +570,17 @@
                 }
             });
         }
+    }
+
+    // Apply a scoped theme to actor/director rows. The existing person
+    // elements, lazy loading and onEnter navigation are left intact.
+    function decoratePersonsRow(line) {
+        if (!line || typeof line.render !== 'function') return;
+
+        var root = line.render(true);
+        if (!root || !root.classList || root.classList.contains('lampa-person-redesign')) return;
+
+        root.classList.add('lampa-person-redesign');
     }
 
     function init() {
