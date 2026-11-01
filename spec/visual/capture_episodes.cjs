@@ -57,11 +57,15 @@ async function main() {
                     render: () => root,
                     use: () => {}
                 }
+                window.fixtureActors = {
+                    render: () => document.getElementById('actor-line')
+                }
                 window.sendFull = detail => (listeners.full || []).forEach(callback => callback(detail))
             })
             await page.addScriptTag({path: plugin})
             await page.evaluate(() => {
                 window.sendFull({type: 'build', name: 'episodes', item: window.fixtureLine})
+                window.sendFull({type: 'build', name: 'persons', item: window.fixtureActors})
             })
 
             const measurements = await page.evaluate(() => {
@@ -71,6 +75,8 @@ async function main() {
                 const more = row.querySelector('.card-more__title')
                 const upcoming = row.querySelector('.lampa-episode--upcoming')
                 const cardStyle = window.getComputedStyle(first)
+                const actorRow = document.getElementById('actor-line')
+                const actor = actorRow.querySelector('.full-person')
                 return {
                     hasStyledRow: row.classList.contains('lampa-episode-redesign'),
                     heading: heading && heading.textContent,
@@ -80,6 +86,13 @@ async function main() {
                     cardWidthInEm: first.getBoundingClientRect().width / parseFloat(cardStyle.fontSize),
                     moreHeight: row.querySelector('.card-more--first').getBoundingClientRect().height,
                     cardHeight: first.getBoundingClientRect().height,
+                    moreWidth: row.querySelector('.card-more--first').getBoundingClientRect().width,
+                    cardWidth: first.getBoundingClientRect().width,
+                    actorRowStyled: actorRow.classList.contains('lampa-person-redesign'),
+                    actorCount: actorRow.querySelectorAll('.full-person.selector').length,
+                    actorWidthInEm: actor.getBoundingClientRect().width / parseFloat(window.getComputedStyle(actor).fontSize),
+                    actorHeight: actor.getBoundingClientRect().height,
+                    actorFocusColor: window.getComputedStyle(actorRow.querySelector('.full-person.focus')).color,
                     viewportOverflow: document.documentElement.scrollWidth > window.innerWidth + 1
                 }
             })
@@ -88,8 +101,11 @@ async function main() {
                 measurements.more !== 'Все серии' ||
                 !measurements.upcomingCalendar || measurements.itemCount !== 3 ||
                 !(measurements.cardWidthInEm > 12 && measurements.cardWidthInEm < 15) ||
-                !(measurements.moreHeight > measurements.cardHeight * 0.55 &&
-                  measurements.moreHeight < measurements.cardHeight * 0.95) ||
+                Math.abs(measurements.moreHeight - measurements.cardHeight) > 3 ||
+                Math.abs(measurements.moreWidth - measurements.cardWidth) > 3 ||
+                !measurements.actorRowStyled || measurements.actorCount !== 5 ||
+                !(measurements.actorWidthInEm > 13 && measurements.actorWidthInEm < 18) ||
+                !(measurements.actorHeight < measurements.cardHeight) ||
                 (device.name === 'mobile' && measurements.viewportOverflow)) {
                 throw new Error('Visual smoke checks failed on ' + device.name + ': ' +
                     JSON.stringify(measurements))
