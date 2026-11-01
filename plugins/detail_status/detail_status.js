@@ -210,9 +210,253 @@
             .text(details.title);
     }
 
+    // Full-screen episode line: enhance presentation while preserving
+    // the original episode DOM nodes, select events and TV focus mechanics.
+    function addEpisodeStyles() {
+        if (document.getElementById('lampa-detail-episodes-css')) return;
+
+        var style = document.createElement('style');
+        style.id = 'lampa-detail-episodes-css';
+        style.type = 'text/css';
+        style.textContent = [
+            '.lampa-episode-redesign .full-episode--small {',
+            '  display: flex; flex-direction: column; flex-shrink: 0;',
+            '  width: 17.5em; overflow: visible;',
+            '  border: 1px solid rgba(255,255,255,.12); border-radius: 1em;',
+            '  background: rgba(12,19,28,.82);',
+            '  transition: border-color .2s, box-shadow .2s, transform .2s;',
+            '}',
+            '.lampa-episode-redesign .full-episode--small .full-episode__img {',
+            '  display: block; width: 100%; padding-bottom: 56.25%;',
+            '  border-radius: 1em 1em 0 0; overflow: hidden;',
+            '  background: rgba(22,32,45,.9);',
+            '}',
+            '.lampa-episode-redesign .full-episode--small .full-episode__img img {',
+            '  width: 100%; height: 100%; object-fit: cover;',
+            '  border-radius: 1em 1em 0 0;',
+            '}',
+            '.lampa-episode-redesign .full-episode--small .full-episode__body {',
+            '  position: relative; inset: auto; flex: 1;',
+            '  display: flex; flex-direction: column;',
+            '  justify-content: flex-start; border-radius: 0 0 1em 1em;',
+            '  padding: .85em 1em .95em; background: transparent;',
+            '  color: #f8f9fc; min-height: 5.9em;',
+            '}',
+            '.lampa-episode-redesign .lampa-episode__heading {',
+            '  display: flex; align-items: baseline; gap: .65em; min-width: 0;',
+            '}',
+            '.lampa-episode-redesign .full-episode__num {',
+            '  font-size: 1em; font-weight: 700; line-height: 1.3;',
+            '  margin: 0; color: #a2b5c6; flex-shrink: 0;',
+            '}',
+            '.lampa-episode-redesign .full-episode__name {',
+            '  min-width: 0; line-height: 1.35; font-size: 1.12em;',
+            '  font-weight: 600; white-space: normal;',
+            '  overflow: hidden; display: -webkit-box;',
+            '  -webkit-box-orient: vertical; -webkit-line-clamp: 2;',
+            '}',
+            '.lampa-episode-redesign .lampa-episode__meta {',
+            '  display: flex; align-items: center; flex-wrap: wrap;',
+            '  gap: .4em .75em; margin-top: auto; padding-top: .65em;',
+            '}',
+            '.lampa-episode-redesign .full-episode__date {',
+            '  font-size: .95em; margin: 0; line-height: 1.3;',
+            '  color: #b9c4ce;',
+            '}',
+            '.lampa-episode-redesign .lampa-episode__availability {',
+            '  margin-left: auto; color: #83ddae;',
+            '  font-size: .78em; font-weight: 600; white-space: nowrap;',
+            '}',
+            '.lampa-episode-redesign .lampa-episode--upcoming {',
+            '  border-color: rgba(248,190,88,.38);',
+            '}',
+            '.lampa-episode-redesign .full-episode--next .full-episode__img {',
+            '  background: linear-gradient(135deg, #1c2839, #141a2b);',
+            '}',
+            '.lampa-episode-redesign .full-episode--next .full-episode__img::after {',
+            '  display: none;',
+            '}',
+            '.lampa-episode-redesign .lampa-episode--upcoming .lampa-episode__availability,',
+            '.lampa-episode-redesign .lampa-episode--upcoming .full-episode__date {',
+            '  color: #f4ca77;',
+            '}',
+            '.lampa-episode-redesign .lampa-episode__calendar {',
+            '  display: flex; flex-direction: column; gap: .6em;',
+            '  position: absolute; inset: 0; align-items: center;',
+            '  justify-content: center; color: #f4ca77;',
+            '}',
+            '.lampa-episode-redesign .lampa-episode__calendar svg {',
+            '  width: 2.35em !important; height: 2.35em !important;',
+            '}',
+            '.lampa-episode-redesign .lampa-episode__calendar-label {',
+            '  font-weight: 600; font-size: .92em;',
+            '}',
+            '.lampa-episode-redesign .full-episode--small.focus,',
+            '.lampa-episode-redesign .full-episode--small.hover {',
+            '  border-color: #fff; box-shadow: 0 0 0 .19em #fff,',
+            '    0 .7em 2em rgba(0,0,0,.3);',
+            '  transform: scale(1.018); z-index: 2;',
+            '}',
+            '.lampa-episode-redesign .full-episode--small.focus::after {',
+            '  display: none;',
+            '}',
+            '.lampa-episode-redesign .full-episode__viewed {',
+            '  display: none;',
+            '}',
+            '.lampa-episode-redesign .full-episode--viewed .full-episode__viewed {',
+            '  display: block; z-index: 2; top: .55em; right: .55em;',
+            '  border-radius: 50%; padding: .25em; background: rgba(0,0,0,.55);',
+            '}',
+            '.lampa-episode-redesign .card-more--first {',
+            '  width: 12em !important; min-height: 14em;',
+            '  align-self: stretch;',
+            '}',
+            '.lampa-episode-redesign .card-more--first .card-more__box {',
+            '  height: auto !important; min-height: 14em;',
+            '  border: 1px solid rgba(255,255,255,.17);',
+            '  border-radius: 1em; background: rgba(20,32,46,.72);',
+            '  display: flex; align-items: center; justify-content: center;',
+            '  flex-direction: column;',
+            '}',
+            '.lampa-episode-redesign .card-more--first .card-more__title {',
+            '  position: static; margin: 0; padding: 0 1em;',
+            '  font-size: 1.2em; font-weight: 600; line-height: 1.3;',
+            '}',
+            '.lampa-episode-redesign .card-more--first .card-more__title::before {',
+            '  content: "↗"; display: block; font-size: 1.6em;',
+            '  font-weight: 400; margin-bottom: .6em; color: #a2d9ef;',
+            '}',
+            '.lampa-episode-redesign .card-more--first.focus .card-more__box {',
+            '  border-color: #fff; box-shadow: 0 0 0 .19em #fff;',
+            '}',
+            '.lampa-episode-redesign .card-more--first.focus .card-more__box::after {',
+            '  display: none;',
+            '}',
+            '@media (max-width: 580px) {',
+            '  .lampa-episode-redesign .full-episode--small {width: 15.8em;}',
+            '  .lampa-episode-redesign .card-more--first {width: 10em !important;}',
+            '}',
+            '@media (prefers-reduced-motion: reduce) {',
+            '  .lampa-episode-redesign .full-episode--small {',
+            '    transition: none; transform: none !important;',
+            '  }',
+            '}'
+        ].join('\n');
+
+        (document.head || document.body).appendChild(style);
+    }
+
+    function episodeUpcoming(episode) {
+        if (episode.comeing === true) return true;
+
+        var date = dayStamp(episode.air_date);
+        if (date === null) return false;
+
+        var now = new Date();
+        return date > Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    }
+
+    function decorateEpisode(item, episode) {
+        if (!item || !episode || typeof item.render !== 'function') return;
+
+        var root = item.render(true);
+        if (!root || !root.classList || !root.classList.contains('full-episode--small') ||
+            root.classList.contains('lampa-episode-card')) return;
+
+        var body = root.querySelector('.full-episode__body');
+        var num = root.querySelector('.full-episode__num');
+        var name = root.querySelector('.full-episode__name');
+        var date = root.querySelector('.full-episode__date');
+        var image = root.querySelector('.full-episode__img');
+
+        if (!body || !num || !name || !date || !image) return;
+
+        var upcoming = episodeUpcoming(episode);
+        root.classList.add('lampa-episode-card');
+
+        if (upcoming) root.classList.add('lampa-episode--upcoming');
+
+        if (Number(episode.episode_number) > 0) {
+            var number = String(episode.episode_number);
+            num.textContent = number.length < 2 ? '0' + number : number;
+        }
+
+        var heading = document.createElement('div');
+        heading.className = 'lampa-episode__heading';
+        heading.appendChild(num);
+        heading.appendChild(name);
+        body.insertBefore(heading, body.firstChild);
+
+        var meta = document.createElement('div');
+        meta.className = 'lampa-episode__meta';
+        if (!episode.air_date) date.textContent = 'Дата уточняется';
+        meta.appendChild(date);
+
+        var availability = document.createElement('span');
+        availability.className = 'lampa-episode__availability';
+        availability.textContent = upcoming ?
+            (episode.air_date ? 'Скоро' : 'Анонс') :
+            (episode.air_date ? 'Доступна' : '');
+        meta.appendChild(availability);
+        body.appendChild(meta);
+
+        if (upcoming) {
+            var cal = document.createElement('div');
+            cal.className = 'lampa-episode__calendar';
+            cal.innerHTML =
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+                'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ' +
+                'aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/>' +
+                '<path d="M7 3v4M17 3v4M3 10h18M8 15h3"/></svg>' +
+                '<span class="lampa-episode__calendar-label">' +
+                (episode.air_date ? 'Скоро в эфире' : 'Анонс') + '</span>';
+            image.appendChild(cal);
+        }
+    }
+
+    function decorateEpisodesRow(line) {
+        if (!line || typeof line.render !== 'function') return;
+
+        var root = line.render(true);
+        if (!root || !root.classList ||
+            root.classList.contains('lampa-episode-redesign')) return;
+
+        root.classList.add('lampa-episode-redesign');
+
+        // Keep the existing "MoreFirst" item in the same position:
+        // repositioning it breaks the internal active index and TV scrolling.
+        if (line.more && typeof line.more.render === 'function') {
+            var more = line.more.render(true);
+            var label = more && more.querySelector('.card-more__title');
+            if (label) label.textContent = 'Все серии';
+        }
+
+        // First items already exist when Lampa emits full:build.
+        (line.items || []).forEach(function (item) {
+            if (item && item.data) decorateEpisode(item, item.data);
+        });
+
+        // Preserve lazy-loaded items: they arrive later during horizontal scroll.
+        if (typeof line.use === 'function') {
+            line.use({
+                onPush: function (item, episode) {
+                    decorateEpisode(item, episode);
+                }
+            });
+        }
+    }
+
+    function onFullBuild(event) {
+        if (event && event.type === 'build' && event.name === 'episodes') {
+            decorateEpisodesRow(event.item);
+        }
+    }
+
     function init() {
         addStyles();
+        addEpisodeStyles();
         Lampa.Listener.follow('full', onFull);
+        Lampa.Listener.follow('full', onFullBuild);
     }
 
     if (window.appready) {
