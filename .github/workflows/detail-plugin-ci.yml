@@ -8,6 +8,7 @@ on:
       - 'plugins/detail_status/**'
       - 'spec/detail_status_plugin.spec.js'
       - 'spec/detail_episodes_plugin.spec.js'
+      - 'spec/visual/**'
       - '.github/workflows/detail-plugin-ci.yml'
       - 'package.json'
   pull_request:
@@ -53,3 +54,34 @@ jobs:
 
       - name: Run project regression suite
         run: npm test -- --run
+
+  visual-snapshots:
+    name: Browser layout smoke test and screenshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install browser test tooling
+        run: npm install --no-save --no-audit --no-fund playwright@1.56.1
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Render desktop, TV, and mobile episode layout
+        run: node spec/visual/capture_episodes.cjs
+
+      - name: Upload preview screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lampa-episode-ui-screenshots
+          path: artifacts/episode-ui/*.png
+          if-no-files-found: warn
+          retention-days: 14
