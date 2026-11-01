@@ -69,6 +69,115 @@
         return String(value || '').toLowerCase().replace(/^\s+|\s+$/g, '').replace(/[\s-]+/g, '_');
     }
 
+    function dayStamp(value) {
+        var date = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
+        if (!date) return null;
+
+        var stamp = Date.UTC(Number(date[1]), Number(date[2]) - 1, Number(date[3]));
+        var checked = new Date(stamp);
+        if (checked.getUTCFullYear() !== Number(date[1]) ||
+            checked.getUTCMonth() !== Number(date[2]) - 1 ||
+            checked.getUTCDate() !== Number(date[3])) return null;
+
+        return stamp;
+    }
+
+    function seasonNumber(value) {
+        var number = Number(value);
+        return Number.isInteger(number) && number > 0 ? number : 0;
+    }
+
+    function nextSeasonStatus(next, last) {
+        if (last && seasonNumber(next.season_number) > seasonNumber(last.season_number) &&
+            seasonNumber(last.season_number) > 0) {
+            return { title: 'Скоро новый сезон', tone: 'pending' };
+        }
+        return { title: 'Скоро новая серия', tone: 'active' };
+    }
+
+    function statusForEpisodeSchedule(status, data) {
+        var basic = statuses[status];
+
+        // Only these statuses describe TV shows that are still being produced.
+        if (status !== 'returning_series' && status !== 'ongoing') return basic;
+
+        var movie = data.movie || {};
+        var now = new Date();
+        var today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+        var last = movie.last_episode_to_air;
+        var next = movie.next_episode_to_air;
+        var nextDate = next && dayStamp(next.air_date);
+
+        // Explicit upcoming episode information has priority over guesses
+        // based on the absence of a broadcast schedule.
+        if (nextDate !== null && nextDate > today) {
+            return nextSeasonStatus(next, last);
+        }
+
+        var seasons = Array.isArray(movie.seasons) ? movie.seasons : [];
+        var lastSeasonNumber = last && seasonNumber(last.season_number);
+        var lastSeason = seasons.find(function (season) {
+            return seasonNumber(season.season_number) === lastSeasonNumber;
+        });
+
+        // An upcoming season with a known premiere date is not a completed show.
+        var announcedSeason = seasons.filter(function (season) {
+            return seasonNumber(season.season_number) > lastSeasonNumber &&
+                lastSeasonNumber > 0 &&
+                dayStamp(season.air_date) !== null &&
+                dayStamp(season.air_date) > today;
+        }).sort(function (a, b) {
+            return Number(a.season_number) - Number(b.season_number);
+        })[0];
+
+        if (announcedSeason) {
+            return { title: 'Скоро новый сезон', tone: 'pending' };
+        }
+
+        // Lampa loads the season's episode list on the full-card request.
+        // This also covers providers that do not include next_episode_to_air.
+        var seasonData = data.episodes || {};
+        var episodes = Array.isArray(seasonData.episodes) ? seasonData.episodes : [];
+        var future = episodes.filter(function (episode) {
+            var date = dayStamp(episode.air_date);
+            return seasonNumber(episode.season_number) > 0 && date !== null && date > today;
+        }).sort(function (a, b) {
+            return dayStamp(a.air_date) - dayStamp(b.air_date);
+        });
+
+        if (future.length) return nextSeasonStatus(future[0], last);
+
+        // Reliable evidence of a finished season: TMDB says the last aired
+        // episode reaches the total episode count for that same season.
+        if (lastSeason && Number(lastSeason.episode_count) > 0 &&
+            Number(last.episode_number) >= Number(lastSeason.episode_count)) {
+            return { title: 'Продолжение следует…', tone: 'pending' };
+        }
+
+        // Alternative evidence when last_episode_to_air is missing:
+        // the selected season has all its listed episodes and all have aired.
+        var currentSeasonNumber = seasonNumber(seasonData.season_number);
+        var selectedSeason = seasons.find(function (season) {
+            return seasonNumber(season.season_number) === currentSeasonNumber;
+        });
+        var actual = episodes.filter(function (episode) {
+            return seasonNumber(episode.season_number) === currentSeasonNumber &&
+                Number(episode.episode_number) > 0;
+        });
+
+        if (!last && selectedSeason && Number(selectedSeason.episode_count) > 0 &&
+            actual.length >= Number(selectedSeason.episode_count) &&
+            actual.every(function (episode) {
+                var date = dayStamp(episode.air_date);
+                return date !== null && date <= today;
+            })) {
+            return { title: 'Продолжение следует…', tone: 'pending' };
+        }
+
+        // No confirmed season finale: keep the original ongoing label.
+        return basic;
+    }
+
     function onFull(event) {
         // 'complite' is the event name used by Lampa itself.
         if (!event || event.type !== 'complite' || !event.body || !event.data || !event.data.movie) return;
@@ -90,7 +199,7 @@
         // Never overwrite unrelated quality/format badges.
         if (!badge.length) return;
 
-        var details = statuses[status];
+        var details = statusForEpisodeSchedule(status, event.data);
 
         badge.removeClass(classes)
             .removeClass('hide')
