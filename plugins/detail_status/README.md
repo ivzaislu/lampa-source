@@ -7,7 +7,7 @@
 Добавьте ссылку на JavaScript-файл в разделе плагинов Lampa:
 
 ```text
-https://cdn.jsdelivr.net/gh/ivzaislu/lampa-source@9e4c4acec6a656c8cb595c7efd9cdf0704324b55/plugins/detail_status/detail_status.js
+https://cdn.jsdelivr.net/gh/ivzaislu/lampa-source@6691ddaacb0a99a7c8af40d4cd9c59d968bce91e/plugins/detail_status/detail_status.js
 ```
 
 Удалите прежнюю ссылку `raw.githubusercontent.com` из списка плагинов, добавьте ссылку jsDelivr выше, затем обновите страницу Lampa и откройте подробную карточку фильма или сериала.
@@ -27,7 +27,7 @@ https://cdn.jsdelivr.net/gh/ivzaislu/lampa-source@9e4c4acec6a656c8cb595c7efd9cdf
 | Planned / Pilot / Rumored | Запланирован / Пилот / По слухам | Серая |
 | Released | Выпущен | Зелёная |
 
-Незнакомые статусы остаются без изменений. Плагин не меняет настройки языка приложения и не вмешивается в навигацию или кнопки управления.
+Плагин изменяет только исходный бейдж статуса и **не меняет бейдж качества** (`TS`, `CAM`, `WEB-DL` и т. п.) даже при совпадении CSS-классов. Незнакомые статусы остаются без изменений. Плагин не меняет настройки языка приложения и не вмешивается в навигацию или кнопки управления.
 
 ## Технически
 
