@@ -37,6 +37,15 @@
     }
     .fixture-note { padding: 1.4em 2em; color: #85969f; font-size: .92em; }
     .full-episode--small .full-episode__img { min-width: 0; }
+    .fixture-avatar {
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.85); font-size: 1.65em; font-weight: 600;
+      background: linear-gradient(135deg, #3c5b67, #223440); width: 100%; height: 100%;
+    }
+    .fixture-avatar--2 { background: linear-gradient(135deg, #81695f, #3e4850); }
+    .fixture-avatar--3 { background: linear-gradient(135deg, #697483, #293e4e); }
+    .fixture-avatar--4 { background: linear-gradient(135deg, #6c675d, #354d53); }
+    .fixture-avatar--5 { background: linear-gradient(135deg, #5b5470, #2b3945); }
   </style>
 </head>
 <body>
@@ -50,7 +59,7 @@
       <div class="items-line__head"><div class="items-line__title">Сезон 2</div></div>
       <div class="items-line__body">
         <div class="scroll scroll--horizontal">
-          <div class="scroll__content"><div class="scroll__body">
+          <div class="scroll__content"><div class="scroll__body mapping--line">
             <div id="more" class="card-more card-more--first selector">
               <div class="card-more__box"><div class="card-more__title">Ещё</div></div>
             </div>
@@ -82,8 +91,34 @@
         </div>
       </div>
     </section>
-    <section class="items-line" aria-label="Соседний раздел">
+    <section id="actor-line" class="items-line">
       <div class="items-line__head"><div class="items-line__title">Актёры</div></div>
+      <div class="items-line__body">
+        <div class="scroll scroll--horizontal"><div class="scroll__content">
+          <div class="scroll__body mapping--line">
+            <div class="full-person selector layer--visible">
+              <div class="full-person__photo"><div class="fixture-avatar">МХ</div></div>
+              <div class="full-person__body"><div class="full-person__name">Майкл С. Холл</div><div class="full-person__role">Декстер Морган</div></div>
+            </div>
+            <div class="full-person selector layer--visible focus">
+              <div class="full-person__photo"><div class="fixture-avatar fixture-avatar--2">УТ</div></div>
+              <div class="full-person__body"><div class="full-person__name">Ума Турман</div><div class="full-person__role">Чарли Браун</div></div>
+            </div>
+            <div class="full-person selector layer--visible">
+              <div class="full-person__photo"><div class="fixture-avatar fixture-avatar--3">ДЭ</div></div>
+              <div class="full-person__body"><div class="full-person__name">Джек Элкотт</div><div class="full-person__role">Гаррисон Морган</div></div>
+            </div>
+            <div class="full-person selector layer--visible">
+              <div class="full-person__photo"><div class="fixture-avatar fixture-avatar--4">НМ</div></div>
+              <div class="full-person__body"><div class="full-person__name">Нтаре Мвине</div><div class="full-person__role">Блессинг Камара</div></div>
+            </div>
+            <div class="full-person selector layer--visible">
+              <div class="full-person__photo"><div class="fixture-avatar fixture-avatar--5">АК</div></div>
+              <div class="full-person__body"><div class="full-person__name">Актёр</div><div class="full-person__role">Роль</div></div>
+            </div>
+          </div>
+        </div></div>
+      </div>
     </section>
     <div class="fixture-note">Тестовый экран с настоящими классами и CSS Lampa; данные эпизодов условные.</div>
   </main>
