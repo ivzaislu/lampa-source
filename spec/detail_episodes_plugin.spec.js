@@ -16,6 +16,10 @@ class Node {
         this.innerHTML = ''
         this.parentNode = null
         this.handlers = []
+        this.attributes = {}
+    }
+    setAttribute(name, value) {
+        this.attributes[name] = value
     }
     set className(value) {
         this.names = new Set(value.split(/\s+/).filter(Boolean))
@@ -95,12 +99,18 @@ function setup() {
 
 function row(items) {
     const root = new Node('items-line')
+    const header = new Node('items-line__head')
+    const season = new Node('items-line__title')
+    season.textContent = 'Сезон 2'
+    header.appendChild(season)
+    root.appendChild(header)
     const moreNode = new Node('card-more card-more--first selector')
     const title = new Node('card-more__title')
     title.textContent = 'Ещё'
     moreNode.appendChild(title)
     return {
         root,
+        season,
         moreNode,
         title,
         items,
@@ -122,6 +132,10 @@ describe('detail episodes plugin', () => {
         expect(line.title.textContent).toBe('Все серии')
         expect(line.moreNode.names.has('selector')).toBe(true)
         expect(line.root.names.has('lampa-episode-redesign')).toBe(true)
+        expect(line.season.names.has('lampa-season--styled')).toBe(true)
+        expect(line.season.attributes['aria-label']).toBe('Сезон 2')
+        expect(line.season.querySelector('.lampa-season__label').textContent).toBe('Сезон')
+        expect(line.season.querySelector('.lampa-season__number').textContent).toBe('02')
         expect(aired.root.names.has('selector')).toBe(true)
         expect(aired.root.querySelector('.lampa-episode__heading')).not.toBeNull()
         expect(aired.root.querySelector('.lampa-episode__availability').textContent).toBe('Доступна')
@@ -148,6 +162,8 @@ describe('detail episodes plugin', () => {
         harness.send({type: 'build', name: 'episodes', item: line})
         expect(line.listeners).toHaveLength(1)
         expect(a.root.querySelector('.lampa-episode__heading').children).toHaveLength(2)
+        expect(line.season.querySelector('.lampa-season__label').textContent).toBe('Сезон')
+        expect(line.season.children).toHaveLength(2)
     })
 
     test('other full build sections are left alone', () => {
